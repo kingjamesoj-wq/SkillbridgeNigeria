@@ -1,0 +1,55 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Public and private user information",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["graduate", "employer"] },
+        "xp": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "role"]
+    },
+    "Enrollment": {
+      "title": "Course Enrollment",
+      "description": "Records of courses purchased or enrolled by a user",
+      "type": "object",
+      "properties": {
+        "courseId": { "type": "string" },
+        "enrolledAt": { "type": "string", "format": "date-time" },
+        "progress": { "type": "number" }
+      },
+      "required": ["courseId", "enrolledAt"]
+    },
+    "ResumeAnalysis": {
+      "title": "AI Resume Analysis",
+      "description": "AI feedback and scoring for a user's resume",
+      "type": "object",
+      "properties": {
+        "feedback": { "type": "string" },
+        "score": { "type": "integer" },
+        "suggestedRoles": { "type": "array", "items": { "type": "string" } },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["feedback", "score", "suggestedRoles", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Main user records"
+    },
+    "/users/{userId}/enrollments/{enrollmentId}": {
+      "schema": "Enrollment",
+      "description": "Course access records"
+    },
+    "/users/{userId}/resumeAnalyses/{analysisId}": {
+      "schema": "ResumeAnalysis",
+      "description": "History of AI analyses"
+    }
+  }
+}
